@@ -29,3 +29,21 @@ export async function sleepOtherTabs(): Promise<void> {
     }
   }
 }
+
+/**
+ * Stash every Tab in the current window except the active and pinned ones.
+ * Special / unrestorable pages are skipped by the Stash domain; asleep Tabs
+ * are included. Current window only.
+ */
+export async function stashOtherTabs(): Promise<void> {
+  const tabs = await browser.tabs.query({ currentWindow: true });
+  const targets = tabs
+    .filter((t) => t.id !== undefined && !t.active && !t.pinned)
+    .map((t) => ({
+      id: t.id!,
+      url: t.url ?? '',
+      title: t.title ?? '',
+      favIconUrl: t.favIconUrl,
+    }));
+  await stashTabs(targets);
+}

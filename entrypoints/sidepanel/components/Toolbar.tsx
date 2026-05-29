@@ -1,4 +1,4 @@
-import { sleepOtherTabs } from '@/src/services/bulk-actions';
+import { sleepOtherTabs, stashOtherTabs } from '@/src/services/bulk-actions';
 import styles from './Toolbar.module.css';
 
 export function Toolbar() {
@@ -10,6 +10,13 @@ export function Toolbar() {
         onClick={() => sleepOtherTabs()}
       >
         💤 Sleep others
+      </button>
+      <button
+        className={styles.button}
+        title="Stash all other tabs in this window"
+        onClick={() => stashOtherTabs()}
+      >
+        📥 Stash others
       </button>
     </div>
   );
