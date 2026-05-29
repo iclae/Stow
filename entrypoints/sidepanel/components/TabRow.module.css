@@ -99,3 +99,7 @@
   opacity: 0.25;
   cursor: not-allowed;
 }
+
+.action[data-on] {
+  opacity: 1;
+}

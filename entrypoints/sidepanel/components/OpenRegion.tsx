@@ -3,7 +3,13 @@ import { TabRow } from './TabRow';
 import { useRegionDropTarget } from '../dnd/useRegionDropTarget';
 import styles from './OpenRegion.module.css';
 
-export function OpenRegion({ tabs }: { tabs: TabView[] }) {
+export function OpenRegion({
+  tabs,
+  lockedIds,
+}: {
+  tabs: TabView[];
+  lockedIds: Set<number>;
+}) {
   // Accept Stash entries dropped in to pop-restore them.
   const { ref, isOver } = useRegionDropTarget('open-region', 'stash-entry');
 
@@ -19,7 +25,7 @@ export function OpenRegion({ tabs }: { tabs: TabView[] }) {
       </header>
       <ul className={styles.list}>
         {tabs.map((tab) => (
-          <TabRow key={tab.id} tab={tab} />
+          <TabRow key={tab.id} tab={tab} locked={lockedIds.has(tab.id)} />
         ))}
       </ul>
     </section>

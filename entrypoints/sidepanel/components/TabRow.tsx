@@ -1,5 +1,6 @@
 import { activateTab, sleepTab, type TabView } from '@/src/services/tabs';
 import { stashTabs } from '@/src/services/stash-actions';
+import { toggleLock } from '@/src/lock/keep-awake';
 import { useListItemDnd } from '../dnd/useListItemDnd';
 import styles from './TabRow.module.css';
 
@@ -9,10 +10,10 @@ const STATE_LABEL: Record<TabView['state'], string> = {
   asleep: 'Asleep',
 };
 
-export function TabRow({ tab }: { tab: TabView }) {
-  // The browser cannot discard the active Tab, and an asleep Tab is already
-  // discarded — Sleep is unavailable in both cases.
-  const canSleep = tab.state === 'awake';
+export function TabRow({ tab, locked }: { tab: TabView; locked: boolean }) {
+  // The browser cannot discard the active Tab, an asleep Tab is already
+  // discarded, and a Keep-awake-locked Tab is never slept manually.
+  const canSleep = tab.state === 'awake' && !locked;
   const { ref, edge, dragging } = useListItemDnd({
     kind: 'open-tab',
     tabId: tab.id,
@@ -43,6 +44,15 @@ export function TabRow({ tab }: { tab: TabView }) {
       <span className={styles.badge} data-state={tab.state}>
         {STATE_LABEL[tab.state]}
       </span>
+      <button
+        className={styles.action}
+        data-on={locked || undefined}
+        title={locked ? 'Allow sleeping (unlock)' : 'Keep awake (never sleep)'}
+        aria-pressed={locked}
+        onClick={() => toggleLock(tab.id)}
+      >
+        {locked ? '🔒' : '🔓'}
+      </button>
       <button
         className={styles.action}
         title={canSleep ? 'Sleep this tab' : 'Cannot sleep this tab'}

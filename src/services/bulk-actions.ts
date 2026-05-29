@@ -5,6 +5,7 @@ import {
   isOneClickSleepEligible,
   type SleepCandidate,
 } from '@/src/domain/sleep-policy';
+import { getLockedTabIds } from '@/src/lock/keep-awake';
 import { stashTabs } from './stash-actions';
 
 function toCandidate(tab: Tabs.Tab, locked: boolean): SleepCandidate {
@@ -21,10 +22,14 @@ function toCandidate(tab: Tabs.Tab, locked: boolean): SleepCandidate {
 
 /** Sleep every Tab in the current window except the active one (current window only). */
 export async function sleepOtherTabs(): Promise<void> {
-  const tabs = await browser.tabs.query({ currentWindow: true });
+  const [tabs, lockedIds] = await Promise.all([
+    browser.tabs.query({ currentWindow: true }),
+    getLockedTabIds(),
+  ]);
+  const locked = new Set(lockedIds);
   for (const tab of tabs) {
     if (tab.id === undefined) continue;
-    if (isOneClickSleepEligible(toCandidate(tab, false))) {
+    if (isOneClickSleepEligible(toCandidate(tab, locked.has(tab.id)))) {
       await browser.tabs.discard(tab.id);
     }
   }
