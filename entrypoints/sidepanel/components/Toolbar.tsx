@@ -18,6 +18,13 @@ export function Toolbar() {
       >
         📥 Stash others
       </button>
+      <button
+        className={styles.button}
+        title="Settings"
+        onClick={() => chrome.runtime.openOptionsPage()}
+      >
+        ⚙️
+      </button>
     </div>
   );
 }

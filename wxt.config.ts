@@ -6,7 +6,7 @@ export default defineConfig({
   manifest: {
     name: 'TabSwap',
     description: 'Sidebar tab manager: Sleep and Stash tabs.',
-    permissions: ['tabs', 'storage', 'sidePanel'],
+    permissions: ['tabs', 'storage', 'sidePanel', 'alarms'],
     action: {},
     side_panel: {
       default_path: 'sidepanel.html',
