@@ -1,2 +1,34 @@
-.agents
+# Claude Code 本地配置
+.claude
+.mcp.json
+
+# 代码图数据库（自动生成）
+.codegraph
+
+# Skills 工具
 skills-lock.json
+
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+build/
+
+# Chrome 扩展打包（含私钥，禁止入库）
+*.pem
+*.crx
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# 操作系统
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# 日志
+*.log
+npm-debug.log*
