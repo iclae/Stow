@@ -3,6 +3,7 @@ import { useStash } from './hooks/useStash';
 import { useSettings } from './hooks/useSettings';
 import { useDropMonitor } from './dnd/useDropMonitor';
 import { setSettings } from '@/src/storage/storage';
+import { Toolbar } from './components/Toolbar';
 import { OpenRegion } from './components/OpenRegion';
 import { StashRegion } from './components/StashRegion';
 import styles from './App.module.css';
@@ -15,6 +16,7 @@ export function App() {
 
   return (
     <div className={styles.app}>
+      <Toolbar />
       <OpenRegion tabs={tabs} />
       <StashRegion
         entries={stash}
