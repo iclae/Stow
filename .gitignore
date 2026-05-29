@@ -15,6 +15,10 @@ node_modules/
 dist/
 build/
 
+# WXT 生成目录与构建输出
+.wxt/
+.output/
+
 # Chrome 扩展打包（含私钥，禁止入库）
 *.pem
 *.crx

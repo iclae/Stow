@@ -1,0 +1,31 @@
+.region {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  max-height: 45%;
+  border-top: 2px solid var(--border);
+  background: var(--bg-elev);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.empty {
+  margin: 0;
+  padding: 8px 10px 14px;
+  color: var(--text-dim);
+  font-size: 12px;
+}

@@ -1,0 +1,16 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["chrome"]
+  },
+  "include": [
+    "entrypoints",
+    "src",
+    "wxt.config.ts",
+    ".wxt/wxt.d.ts",
+    ".wxt/types"
+  ],
+  "exclude": ["node_modules", ".output", "vitest.config.ts"]
+}
