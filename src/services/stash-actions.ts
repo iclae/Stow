@@ -65,6 +65,12 @@ export async function copyRestore(entry: StashEntry): Promise<void> {
   await openUrl(entry.url);
 }
 
+/** Delete a Stash entry: remove it from the Stash without reopening its Tab. */
+export async function deleteStashEntry(entryId: string): Promise<void> {
+  const current = await getStash();
+  await setStash(removeEntry(current, entryId));
+}
+
 /** Move a Stash entry to `toIndex` in the flat list and persist the new order. */
 export async function reorderStash(
   entryId: string,

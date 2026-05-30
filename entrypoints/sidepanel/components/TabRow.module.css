@@ -111,6 +111,10 @@
   opacity: 1;
 }
 
+.action[data-danger]:hover:not(:disabled) {
+  color: var(--danger);
+}
+
 .action:disabled {
   opacity: 0.15;
   cursor: not-allowed;

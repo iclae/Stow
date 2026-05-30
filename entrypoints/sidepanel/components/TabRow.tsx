@@ -1,8 +1,8 @@
-import { activateTab, sleepTab, type TabView } from '@/src/services/tabs';
+import { activateTab, closeTab, sleepTab, type TabView } from '@/src/services/tabs';
 import { stashTabs } from '@/src/services/stash-actions';
 import { toggleLock } from '@/src/lock/keep-awake';
 import { useListItemDnd } from '../dnd/useListItemDnd';
-import { Moon, Tray, Lock, LockOpen } from '@phosphor-icons/react';
+import { Moon, Tray, Lock, LockOpen, X } from '@phosphor-icons/react';
 import styles from './TabRow.module.css';
 
 const STATE_LABEL: Record<TabView['state'], string> = {
@@ -78,6 +78,14 @@ export function TabRow({ tab, locked }: { tab: TabView; locked: boolean }) {
           }
         >
           <Tray size={13} weight="regular" />
+        </button>
+        <button
+          className={styles.action}
+          data-danger
+          title="Close this tab"
+          onClick={() => closeTab(tab.id)}
+        >
+          <X size={13} weight="regular" />
         </button>
       </div>
     </li>

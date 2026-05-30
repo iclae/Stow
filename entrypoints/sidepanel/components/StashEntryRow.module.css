@@ -86,3 +86,7 @@
   color: var(--text);
   opacity: 1;
 }
+
+.action[data-danger]:hover {
+  color: var(--danger);
+}

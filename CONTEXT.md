@@ -27,6 +27,10 @@ _Avoid_: Discard (use only when referring to the underlying API)
 Closing a real Tab and persisting its metadata (URL, title, etc.) into the extension's `chrome.storage`. The tab leaves the tab strip entirely and exists only as a stored entry until restored.
 _Avoid_: Save, archive, park
 
+**Close (关闭)**:
+Closing a real Tab without persisting anything — the tab simply leaves the tab strip via `chrome.tabs.remove()`. Distinct from Stash, which closes *and* persists; nothing is recoverable through the extension afterward. An Open-region per-Tab action.
+_Avoid_: Remove, delete (reserve Delete for Stash entries)
+
 **Open region (当前打开区域)**:
 The sidebar region mirroring the real Tabs of the current window only — each shown with its state (active / awake / asleep). Scoped to the single window the side panel belongs to; other windows have their own independent panel.
 _Avoid_: Tab list, open tabs panel
@@ -46,6 +50,10 @@ _Avoid_: Move restore
 **Copy restore (复制式恢复)**:
 Reopening a Stash entry's Tab while keeping the entry in the Stash. A secondary action (e.g. modifier-click or a dedicated button).
 _Avoid_: Duplicate restore
+
+**Delete (删除)**:
+Removing a Stash entry from the Stash without reopening its Tab. The Stash-region counterpart to Close; the persisted metadata is discarded for good. Distinct from Pop restore, which also removes the entry but reopens its Tab first.
+_Avoid_: Remove, close (reserve Close for real Tabs)
 
 **Auto-sleep (定时休眠)**:
 Background rule that Sleeps a Tab after it has gone unviewed for a configured idle timeout (per-tab, based on last-viewed time). Runs across all windows (unlike manual operations, which are scoped to the current window). Always exempts the active tab, pinned tabs, and audible tabs, plus any domain on the user's exclusion list (matched by the page domain equalling or being a subdomain of a listed domain).
