@@ -3,18 +3,24 @@ import { getSettings, setSettings } from '@/src/storage/storage';
 import { Plus } from '@phosphor-icons/react';
 import styles from './Options.module.css';
 
-/** Hostname of the first active http(s) Tab across windows, or null. */
-async function currentTabDomain(): Promise<string | null> {
-  const tabs = await chrome.tabs.query({ active: true });
+/**
+ * Deduplicated hostnames of all open http(s) Tabs across every window, with a
+ * leading "www." stripped (listing the apex also matches its www subdomain).
+ */
+async function openTabDomains(): Promise<string[]> {
+  const tabs = await chrome.tabs.query({});
+  const domains = new Set<string>();
   for (const t of tabs) {
     try {
       const u = new URL(t.url ?? '');
-      if (u.protocol === 'http:' || u.protocol === 'https:') return u.hostname;
+      if (u.protocol === 'http:' || u.protocol === 'https:') {
+        domains.add(u.hostname.replace(/^www\./, ''));
+      }
     } catch {
       // skip unparseable / special pages
     }
   }
-  return null;
+  return [...domains].sort();
 }
 
 function parseDomains(text: string): string[] {
@@ -27,6 +33,7 @@ function parseDomains(text: string): string[] {
 export function Options() {
   const [idleMinutes, setIdleMinutes] = useState<number>(30);
   const [domainsText, setDomainsText] = useState<string>('');
+  const [openDomains, setOpenDomains] = useState<string[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -35,6 +42,7 @@ export function Options() {
       setDomainsText(s.excludedDomains.join('\n'));
       setLoaded(true);
     });
+    openTabDomains().then(setOpenDomains);
   }, []);
 
   function saveIdle(value: number) {
@@ -47,15 +55,14 @@ export function Options() {
     setSettings({ excludedDomains: parseDomains(text) });
   }
 
-  async function addCurrentDomain() {
-    const domain = await currentTabDomain();
-    if (!domain) return;
-    const existing = parseDomains(domainsText);
-    if (existing.includes(domain)) return;
-    saveDomains([...existing, domain].join('\n'));
+  function addDomain(domain: string) {
+    saveDomains([...parseDomains(domainsText), domain].join('\n'));
   }
 
   if (!loaded) return null;
+
+  const excluded = new Set(parseDomains(domainsText));
+  const candidates = openDomains.filter((d) => !excluded.has(d));
 
   return (
     <main className={styles.page}>
@@ -89,15 +96,23 @@ export function Options() {
           onChange={(e) => saveDomains(e.target.value)}
           placeholder="one domain per line, e.g. mail.google.com"
         />
-        <div className={styles.row}>
-          <button className={styles.button} onClick={addCurrentDomain}>
-            <Plus size={12} weight="bold" />
-            Add current tab&apos;s domain
-          </button>
-        </div>
+        {candidates.length > 0 && (
+          <div className={styles.chips}>
+            {candidates.map((domain) => (
+              <button
+                key={domain}
+                className={styles.button}
+                onClick={() => addDomain(domain)}
+              >
+                <Plus size={12} weight="bold" />
+                {domain}
+              </button>
+            ))}
+          </div>
+        )}
         <p className={styles.hint}>
           A Tab is never auto-slept if its domain equals or is a subdomain of a
-          listed domain.
+          listed domain. Click an open tab&apos;s domain above to add it.
         </p>
       </section>
     </main>
