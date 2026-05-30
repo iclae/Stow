@@ -1,6 +1,7 @@
 import type { StashEntry } from '@/src/domain/stash';
 import { StashEntryRow } from './StashEntryRow';
 import { useRegionDropTarget } from '../dnd/useRegionDropTarget';
+import { CaretDown, CaretRight } from '@phosphor-icons/react';
 import styles from './StashRegion.module.css';
 
 export function StashRegion({
@@ -28,7 +29,7 @@ export function StashRegion({
           aria-expanded={!collapsed}
           title={collapsed ? 'Expand stash' : 'Collapse stash'}
         >
-          {collapsed ? '▸' : '▾'}
+          {collapsed ? <CaretRight size={11} weight="bold" /> : <CaretDown size={11} weight="bold" />}
         </button>
         <h2 className={styles.heading}>Stash</h2>
         <span className={styles.count}>{entries.length}</span>

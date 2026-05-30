@@ -1,21 +1,37 @@
 .toolbar {
   display: flex;
-  gap: 6px;
-  padding: 6px 10px;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-elev);
   flex: 0 0 auto;
 }
 
 .button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 5px;
   padding: 4px 8px;
   font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  transition: border-color 0.12s, color 0.12s;
 }
 
 .button:hover {
-  background: var(--bg-hover);
+  color: var(--text);
   border-color: var(--accent);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.iconOnly {
+  padding: 4px 6px;
+  margin-left: auto;
 }

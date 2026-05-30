@@ -2,6 +2,7 @@ import { activateTab, sleepTab, type TabView } from '@/src/services/tabs';
 import { stashTabs } from '@/src/services/stash-actions';
 import { toggleLock } from '@/src/lock/keep-awake';
 import { useListItemDnd } from '../dnd/useListItemDnd';
+import { Moon, Tray, Lock, LockOpen } from '@phosphor-icons/react';
 import styles from './TabRow.module.css';
 
 const STATE_LABEL: Record<TabView['state'], string> = {
@@ -44,39 +45,41 @@ export function TabRow({ tab, locked }: { tab: TabView; locked: boolean }) {
       <span className={styles.badge} data-state={tab.state}>
         {STATE_LABEL[tab.state]}
       </span>
-      <button
-        className={styles.action}
-        data-on={locked || undefined}
-        title={locked ? 'Allow sleeping (unlock)' : 'Keep awake (never sleep)'}
-        aria-pressed={locked}
-        onClick={() => toggleLock(tab.id)}
-      >
-        {locked ? '🔒' : '🔓'}
-      </button>
-      <button
-        className={styles.action}
-        title={canSleep ? 'Sleep this tab' : 'Cannot sleep this tab'}
-        disabled={!canSleep}
-        onClick={() => sleepTab(tab.id)}
-      >
-        💤
-      </button>
-      <button
-        className={styles.action}
-        title="Stash this tab"
-        onClick={() =>
-          stashTabs([
-            {
-              id: tab.id,
-              url: tab.url,
-              title: tab.title,
-              favIconUrl: tab.favIconUrl,
-            },
-          ])
-        }
-      >
-        📥
-      </button>
+      <div className={styles.actions}>
+        <button
+          className={styles.action}
+          data-on={locked || undefined}
+          title={locked ? 'Allow sleeping (unlock)' : 'Keep awake (never sleep)'}
+          aria-pressed={locked}
+          onClick={() => toggleLock(tab.id)}
+        >
+          {locked ? <Lock size={13} weight="fill" /> : <LockOpen size={13} weight="regular" />}
+        </button>
+        <button
+          className={styles.action}
+          title={canSleep ? 'Sleep this tab' : 'Cannot sleep this tab'}
+          disabled={!canSleep}
+          onClick={() => sleepTab(tab.id)}
+        >
+          <Moon size={13} weight="regular" />
+        </button>
+        <button
+          className={styles.action}
+          title="Stash this tab"
+          onClick={() =>
+            stashTabs([
+              {
+                id: tab.id,
+                url: tab.url,
+                title: tab.title,
+                favIconUrl: tab.favIconUrl,
+              },
+            ])
+          }
+        >
+          <Tray size={13} weight="regular" />
+        </button>
+      </div>
     </li>
   );
 }

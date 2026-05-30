@@ -1,11 +1,12 @@
 .row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
+  gap: 6px;
+  padding: 5px 8px 5px 10px;
   border-bottom: 1px solid var(--border);
   position: relative;
   cursor: grab;
+  min-height: 30px;
 }
 
 .row:hover {
@@ -36,10 +37,10 @@
 }
 
 .favicon {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   flex: 0 0 auto;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .title {
@@ -52,20 +53,36 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.actions {
+  display: flex;
+  gap: 1px;
+  flex: 0 0 auto;
 }
 
 .action {
-  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
   background: none;
   border: none;
-  padding: 2px 4px;
   border-radius: 4px;
-  font-size: 13px;
-  line-height: 1;
-  opacity: 0.65;
+  color: var(--text-dim);
+  opacity: 0.4;
+  transition: background 0.1s, color 0.1s, opacity 0.1s;
+}
+
+.row:hover .action {
+  opacity: 0.75;
 }
 
 .action:hover {
   background: var(--bg);
+  color: var(--text);
   opacity: 1;
 }

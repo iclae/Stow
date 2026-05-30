@@ -1,6 +1,7 @@
 import type { StashEntry } from '@/src/domain/stash';
 import { copyRestore, popRestore } from '@/src/services/stash-actions';
 import { useListItemDnd } from '../dnd/useListItemDnd';
+import { ArrowSquareOut } from '@phosphor-icons/react';
 import styles from './StashEntryRow.module.css';
 
 export function StashEntryRow({
@@ -36,13 +37,15 @@ export function StashEntryRow({
       >
         {entry.title}
       </button>
-      <button
-        className={styles.action}
-        title="Copy restore (reopen, keep in stash)"
-        onClick={() => copyRestore(entry)}
-      >
-        📋
-      </button>
+      <div className={styles.actions}>
+        <button
+          className={styles.action}
+          title="Copy restore (reopen, keep in stash)"
+          onClick={() => copyRestore(entry)}
+        >
+          <ArrowSquareOut size={13} weight="regular" />
+        </button>
+      </div>
     </li>
   );
 }

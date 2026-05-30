@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getSettings, setSettings } from '@/src/storage/storage';
+import { Plus } from '@phosphor-icons/react';
 import styles from './Options.module.css';
 
 /** Hostname of the first active http(s) Tab across windows, or null. */
@@ -58,7 +59,9 @@ export function Options() {
 
   return (
     <main className={styles.page}>
-      <h1 className={styles.title}>TabSwap Settings</h1>
+      <header className={styles.header}>
+        <h1 className={styles.title}>TabSwap Settings</h1>
+      </header>
 
       <section className={styles.section}>
         <h2 className={styles.heading}>Auto-sleep</h2>
@@ -88,6 +91,7 @@ export function Options() {
         />
         <div className={styles.row}>
           <button className={styles.button} onClick={addCurrentDomain}>
+            <Plus size={12} weight="bold" />
             Add current tab&apos;s domain
           </button>
         </div>

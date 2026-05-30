@@ -20,11 +20,12 @@
 }
 
 .toggle {
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   padding: 0;
   color: var(--text-dim);
-  font-size: 11px;
   width: 14px;
 }
 
