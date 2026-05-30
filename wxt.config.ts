@@ -4,7 +4,7 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   modules: ['@wxt-dev/module-react'],
   manifest: {
-    name: 'TabSwap',
+    name: 'Stow',
     description: 'Sidebar tab manager: Sleep and Stash tabs.',
     permissions: ['tabs', 'storage', 'sidePanel', 'alarms'],
     action: {},

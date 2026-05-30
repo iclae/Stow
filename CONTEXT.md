@@ -1,4 +1,4 @@
-# TabSwap
+# Stow
 
 A Chrome extension whose primary surface is a sidebar for managing browser tabs, centered on two ways of getting tabs out of the way: sleeping them and stashing them.
 
@@ -20,7 +20,7 @@ A Tab that has been Slept (discarded) but still occupies a slot in the tab strip
 _Avoid_: Discarded tab, dormant tab
 
 **Sleep (休眠)**:
-Releasing a tab's memory via `chrome.tabs.discard()` while leaving it in the tab strip. The tab stays a real Tab; clicking it reloads automatically. TabSwap does not persist anything — the browser manages discarded tabs.
+Releasing a tab's memory via `chrome.tabs.discard()` while leaving it in the tab strip. The tab stays a real Tab; clicking it reloads automatically. Stow does not persist anything — the browser manages discarded tabs.
 _Avoid_: Discard (use only when referring to the underlying API)
 
 **Stash (暂存)**:

@@ -1,6 +1,6 @@
 # Store all extension data in chrome.storage.local (no sync)
 
-TabSwap keeps both Stash entries and settings entirely in `chrome.storage.local` rather than `chrome.storage.sync`. The Stash is designed to hold large numbers of entries with frequent writes (batch stashing, drag reordering), which would quickly blow past sync's ~100KB total / ~8KB-per-item / write-rate quotas; settings are kept local too for a single, consistent storage layer rather than splitting across backends.
+Stow keeps both Stash entries and settings entirely in `chrome.storage.local` rather than `chrome.storage.sync`. The Stash is designed to hold large numbers of entries with frequent writes (batch stashing, drag reordering), which would quickly blow past sync's ~100KB total / ~8KB-per-item / write-rate quotas; settings are kept local too for a single, consistent storage layer rather than splitting across backends.
 
 ## Consequences
 

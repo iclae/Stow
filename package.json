@@ -1,5 +1,5 @@
 {
-  "name": "tabswap",
+  "name": "stow",
   "description": "Sidebar tab manager for Chrome: Sleep and Stash tabs.",
   "private": true,
   "version": "0.1.0",

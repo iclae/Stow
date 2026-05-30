@@ -67,7 +67,7 @@ export function Options() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <h1 className={styles.title}>TabSwap Settings</h1>
+        <h1 className={styles.title}>Stow Settings</h1>
       </header>
 
       <section className={styles.section}>

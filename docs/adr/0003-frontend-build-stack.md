@@ -1,6 +1,6 @@
 # Frontend and build stack: WXT + React + Pragmatic drag-and-drop
 
-TabSwap is built as a Manifest V3 extension on **WXT** (handles manifest generation, multi-entrypoint wiring, HMR, side panel / background / options), with **React + TypeScript** for UI, **Vitest** (+ `@webext-core/fake-browser`) for testing the pure logic modules against a mocked `chrome.*`, and **CSS Modules** for scoped styling. These are conventional choices for the extension's shape (side panel + service worker + options page + several pure logic modules).
+Stow is built as a Manifest V3 extension on **WXT** (handles manifest generation, multi-entrypoint wiring, HMR, side panel / background / options), with **React + TypeScript** for UI, **Vitest** (+ `@webext-core/fake-browser`) for testing the pure logic modules against a mocked `chrome.*`, and **CSS Modules** for scoped styling. These are conventional choices for the extension's shape (side panel + service worker + options page + several pure logic modules).
 
 The one deliberate deviation from the obvious path is the drag-and-drop library: we use **Pragmatic drag-and-drop (Atlassian)** rather than the more common React choice, **dnd-kit**.
 

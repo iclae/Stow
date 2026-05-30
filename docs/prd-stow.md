@@ -1,4 +1,4 @@
-# PRD: TabSwap — sidebar tab manager (Sleep + Stash)
+# PRD: Stow — sidebar tab manager (Sleep + Stash)
 
 ## Problem Statement
 
@@ -6,7 +6,7 @@ People accumulate large numbers of open browser tabs. Most stay open "just in ca
 
 ## Solution
 
-TabSwap is a Chrome extension whose primary surface is a side panel (sidebar) for managing tabs. It offers two distinct moves:
+Stow is a Chrome extension whose primary surface is a side panel (sidebar) for managing tabs. It offers two distinct moves:
 
 - **Sleep (休眠):** release a Tab's memory via the browser's discard mechanism while leaving it in the tab strip — it stays a real Tab and reloads when clicked.
 - **Stash (暂存):** close a Tab and persist its metadata to extension storage, removing it from the tab strip until the user restores it.
