@@ -1,6 +1,7 @@
 // Tab service: thin adapter over chrome.tabs / windows so the UI and background
 // talk to one place and tests can mock the browser.
 import { browser, type Tabs } from 'wxt/browser';
+import type { SleepCandidate } from '@/src/domain/sleep-policy';
 
 export type TabState = 'active' | 'awake' | 'asleep';
 
@@ -31,6 +32,28 @@ export function toView(tab: Tabs.Tab): TabView {
     pinned: tab.pinned,
     audible: tab.audible ?? false,
     index: tab.index,
+  };
+}
+
+/**
+ * Map a Chrome Tab to the pure Sleep policy's {@link SleepCandidate}. The
+ * caller supplies `locked` (from the Keep-awake lock) and a `lastAccessedFallback`
+ * for Tabs Chrome reports without a `lastAccessed` — auto-sleep passes `now` so
+ * such Tabs read as just-viewed and are never slept.
+ */
+export function toSleepCandidate(
+  tab: Tabs.Tab,
+  locked: boolean,
+  lastAccessedFallback: number,
+): SleepCandidate {
+  return {
+    active: tab.active,
+    pinned: tab.pinned,
+    audible: tab.audible ?? false,
+    locked,
+    discarded: tab.discarded ?? false,
+    url: tab.url ?? '',
+    lastAccessed: tab.lastAccessed ?? lastAccessedFallback,
   };
 }
 

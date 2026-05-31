@@ -8,7 +8,7 @@ import {
   type StashableTab,
   type StashEntry,
 } from '@/src/domain/stash';
-import { getStash, setStash } from '@/src/storage/storage';
+import { getStash, setStash, updateStash } from '@/src/storage/storage';
 import { browser } from 'wxt/browser';
 import { closeTab, openUrl } from './tabs';
 
@@ -23,9 +23,7 @@ const newId = () => crypto.randomUUID();
  * those real tabs. Unstashable pages are left untouched.
  */
 export async function stashTabs(tabs: ClosableTab[]): Promise<void> {
-  const current = await getStash();
-  const next = addEntries(current, tabs, Date.now(), newId);
-  await setStash(next);
+  await updateStash((current) => addEntries(current, tabs, Date.now(), newId));
   for (const tab of tabs) {
     if (isStashable(tab.url)) await closeTab(tab.id);
   }
@@ -47,8 +45,7 @@ export async function stashTabById(tabId: number): Promise<void> {
 /** Pop restore: reopen the entry's Tab and remove the entry from the Stash. */
 export async function popRestore(entry: StashEntry): Promise<void> {
   await openUrl(entry.url);
-  const current = await getStash();
-  await setStash(removeEntry(current, entry.id));
+  await updateStash((current) => removeEntry(current, entry.id));
 }
 
 /** Pop restore by entry id (used by drag-to-Open-region). */
@@ -67,8 +64,7 @@ export async function copyRestore(entry: StashEntry): Promise<void> {
 
 /** Delete a Stash entry: remove it from the Stash without reopening its Tab. */
 export async function deleteStashEntry(entryId: string): Promise<void> {
-  const current = await getStash();
-  await setStash(removeEntry(current, entryId));
+  await updateStash((current) => removeEntry(current, entryId));
 }
 
 /**
@@ -76,8 +72,7 @@ export async function deleteStashEntry(entryId: string): Promise<void> {
  * leaves other entries' orders untouched, so it lands back in its old position.
  */
 export async function restoreStashEntry(entry: StashEntry): Promise<void> {
-  const current = await getStash();
-  await setStash([...current, entry]);
+  await updateStash((current) => [...current, entry]);
 }
 
 /** Move a Stash entry to `toIndex` in the flat list and persist the new order. */
@@ -85,6 +80,5 @@ export async function reorderStash(
   entryId: string,
   toIndex: number,
 ): Promise<void> {
-  const current = await getStash();
-  await setStash(reorder(current, entryId, toIndex));
+  await updateStash((current) => reorder(current, entryId, toIndex));
 }

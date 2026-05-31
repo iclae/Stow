@@ -1,7 +1,8 @@
 // Storage: wraps chrome.storage.local behind a small interface. Both Stash
 // entries and settings live here; nothing uses chrome.storage.sync (ADR-0001).
 import { browser } from 'wxt/browser';
-import type { StashEntry } from '@/src/domain/stash';
+import { sortByOrder, type StashEntry } from '@/src/domain/stash';
+import { liveValue } from './live-value';
 
 const STASH_KEY = 'stash';
 const SETTINGS_KEY = 'settings';
@@ -21,19 +22,31 @@ export const DEFAULT_SETTINGS: Settings = {
   stashCollapsed: false,
 };
 
-export async function getStash(): Promise<StashEntry[]> {
-  const res = await browser.storage.local.get(STASH_KEY);
-  return (res[STASH_KEY] as StashEntry[] | undefined) ?? [];
-}
+/** Live, order-sorted view of the Stash. Reads here are always sorted. */
+export const stashStore = liveValue('local', STASH_KEY, (raw) =>
+  sortByOrder((raw as StashEntry[] | undefined) ?? []),
+);
+
+/** Live view of settings, merged over defaults. */
+export const settingsStore = liveValue('local', SETTINGS_KEY, (raw) => ({
+  ...DEFAULT_SETTINGS,
+  ...(raw as Partial<Settings> | undefined),
+}));
+
+export const getStash = stashStore.get;
 
 export async function setStash(entries: StashEntry[]): Promise<void> {
   await browser.storage.local.set({ [STASH_KEY]: entries });
 }
 
-export async function getSettings(): Promise<Settings> {
-  const res = await browser.storage.local.get(SETTINGS_KEY);
-  return { ...DEFAULT_SETTINGS, ...(res[SETTINGS_KEY] as Partial<Settings>) };
+/** Read-modify-write the Stash: persist `fn` applied to the current entries. */
+export async function updateStash(
+  fn: (entries: StashEntry[]) => StashEntry[],
+): Promise<void> {
+  await setStash(fn(await getStash()));
 }
+
+export const getSettings = settingsStore.get;
 
 export async function setSettings(patch: Partial<Settings>): Promise<void> {
   const current = await getSettings();
