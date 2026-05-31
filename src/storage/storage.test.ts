@@ -5,6 +5,7 @@ import {
   getStash,
   setSettings,
   setStash,
+  updateStash,
 } from './storage';
 import type { StashEntry } from '@/src/domain/stash';
 
@@ -33,6 +34,12 @@ describe('storage: stash round-trip', () => {
     await setStash([entry('a', 0)]);
     await setStash([entry('b', 0), entry('c', 1)]);
     expect((await getStash()).map((e) => e.id)).toEqual(['b', 'c']);
+  });
+
+  it('updateStash persists the function applied to current entries', async () => {
+    await setStash([entry('a', 0)]);
+    await updateStash((current) => [...current, entry('b', 1)]);
+    expect((await getStash()).map((e) => e.id)).toEqual(['a', 'b']);
   });
 });
 

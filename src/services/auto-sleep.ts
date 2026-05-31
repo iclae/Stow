@@ -4,6 +4,7 @@ import { browser } from 'wxt/browser';
 import { isAutoSleepEligible } from '@/src/domain/sleep-policy';
 import { getSettings } from '@/src/storage/storage';
 import { getLockedTabIds } from '@/src/lock/keep-awake';
+import { toSleepCandidate } from './tabs';
 
 export async function runAutoSleep(now: number = Date.now()): Promise<void> {
   const settings = await getSettings();
@@ -19,15 +20,7 @@ export async function runAutoSleep(now: number = Date.now()): Promise<void> {
   for (const tab of tabs) {
     if (tab.id === undefined) continue;
     const eligible = isAutoSleepEligible(
-      {
-        active: tab.active,
-        pinned: tab.pinned,
-        audible: tab.audible ?? false,
-        locked: locked.has(tab.id),
-        discarded: tab.discarded ?? false,
-        url: tab.url ?? '',
-        lastAccessed: tab.lastAccessed ?? now,
-      },
+      toSleepCandidate(tab, locked.has(tab.id), now),
       { now, idleMs, excludedDomains: settings.excludedDomains },
     );
     if (eligible) await browser.tabs.discard(tab.id);

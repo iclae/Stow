@@ -1,24 +1,10 @@
 // Toolbar bulk operations. The eligibility decision lives entirely in the
 // Sleep policy / Stash domain; this module only queries tabs and applies it.
-import { browser, type Tabs } from 'wxt/browser';
-import {
-  isOneClickSleepEligible,
-  type SleepCandidate,
-} from '@/src/domain/sleep-policy';
+import { browser } from 'wxt/browser';
+import { isOneClickSleepEligible } from '@/src/domain/sleep-policy';
 import { getLockedTabIds } from '@/src/lock/keep-awake';
+import { toSleepCandidate } from './tabs';
 import { stashTabs } from './stash-actions';
-
-function toCandidate(tab: Tabs.Tab, locked: boolean): SleepCandidate {
-  return {
-    active: tab.active,
-    pinned: tab.pinned,
-    audible: tab.audible ?? false,
-    locked,
-    discarded: tab.discarded ?? false,
-    url: tab.url ?? '',
-    lastAccessed: tab.lastAccessed ?? 0,
-  };
-}
 
 /** Sleep every Tab in the current window except the active one (current window only). */
 export async function sleepOtherTabs(): Promise<void> {
@@ -29,7 +15,7 @@ export async function sleepOtherTabs(): Promise<void> {
   const locked = new Set(lockedIds);
   for (const tab of tabs) {
     if (tab.id === undefined) continue;
-    if (isOneClickSleepEligible(toCandidate(tab, locked.has(tab.id)))) {
+    if (isOneClickSleepEligible(toSleepCandidate(tab, locked.has(tab.id), 0))) {
       await browser.tabs.discard(tab.id);
     }
   }
