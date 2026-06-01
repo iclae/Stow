@@ -47,15 +47,20 @@ export function sortByOrder(entries: StashEntry[]): StashEntry[] {
   return [...entries].sort((a, b) => a.order - b.order);
 }
 
-/** The order value a newly appended entry should take. */
-export function nextOrder(entries: StashEntry[]): number {
+/**
+ * The order value the first entry of a `count`-sized block should take when
+ * prepended on top, so the whole block sorts above every existing entry.
+ */
+export function topOrderBase(entries: StashEntry[], count: number): number {
   if (entries.length === 0) return 0;
-  return Math.max(...entries.map((e) => e.order)) + 1;
+  return Math.min(...entries.map((e) => e.order)) - count;
 }
 
 /**
- * Append new entries for the given tabs. Duplicates are allowed (the same URL
- * stashed twice yields two entries); unstashable pages are skipped.
+ * Add new entries for the given tabs at the top of the list (newest first).
+ * A batch keeps the tabs' given order within the prepended block. Duplicates
+ * are allowed (the same URL stashed twice yields two entries); unstashable
+ * pages are skipped.
  */
 export function addEntries(
   entries: StashEntry[],
@@ -63,10 +68,10 @@ export function addEntries(
   now: number,
   newId: () => string,
 ): StashEntry[] {
+  const stashable = tabs.filter((tab) => isStashable(tab.url));
   const result = [...entries];
-  let order = nextOrder(entries);
-  for (const tab of tabs) {
-    if (!isStashable(tab.url)) continue;
+  let order = topOrderBase(entries, stashable.length);
+  for (const tab of stashable) {
     result.push({
       id: newId(),
       url: tab.url,

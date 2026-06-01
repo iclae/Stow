@@ -54,12 +54,32 @@ describe('addEntries', () => {
     expect(result.map((e) => e.url)).toEqual(['https://ok.com']);
   });
 
-  it('assigns increasing order after existing entries', () => {
+  it('inserts a new single entry above existing ones (newest first)', () => {
     counter = 0;
     const first = addEntries([], [tab('https://a.com')], 1, newId);
     const second = addEntries(first, [tab('https://b.com')], 2, newId);
-    expect(second[0].order).toBe(0);
-    expect(second[1].order).toBe(1);
+    expect(sortByOrder(second).map((e) => e.url)).toEqual([
+      'https://b.com',
+      'https://a.com',
+    ]);
+  });
+
+  it('prepends a batch as a block, keeping the tabs given order within it', () => {
+    counter = 0;
+    const existing = addEntries([], [tab('https://x.com'), tab('https://y.com')], 1, newId);
+    const after = addEntries(
+      existing,
+      [tab('https://a.com'), tab('https://b.com'), tab('https://c.com')],
+      2,
+      newId,
+    );
+    expect(sortByOrder(after).map((e) => e.url)).toEqual([
+      'https://a.com',
+      'https://b.com',
+      'https://c.com',
+      'https://x.com',
+      'https://y.com',
+    ]);
   });
 });
 

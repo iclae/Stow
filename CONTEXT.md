@@ -36,7 +36,7 @@ The sidebar region mirroring the real Tabs of the current window only — each s
 _Avoid_: Tab list, open tabs panel
 
 **Stash region (Stash 区域)**:
-The sidebar region listing all Stash entries as a single flat list (no groups/sessions), shared across the whole extension. Collapsible as one unit. Both single stashes and batch stashes drop their entries into this same flat list. Entries are manually reorderable by drag, so each entry persists an explicit order (not merely sorted by stash time).
+The sidebar region listing all Stash entries as a single flat list (no groups/sessions), shared across the whole extension. Collapsible as one unit. Both single stashes and batch stashes drop their entries into this same flat list. Entries are manually reorderable by drag, so each entry persists an explicit order (not merely sorted by stash time). New stashes are inserted at the top (newest first) until manually reordered.
 _Avoid_: Stash list, archive panel
 
 **Stash entry**:
