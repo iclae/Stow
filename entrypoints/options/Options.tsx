@@ -115,6 +115,15 @@ export function Options() {
           listed domain. Click an open tab&apos;s domain above to add it.
         </p>
       </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.heading}>Stash</h2>
+        <p className={styles.hint}>
+          Browser built-in pages (new tab, extensions, chrome:// URLs), the
+          Chrome Web Store, and non-web addresses are always skipped — they
+          can&apos;t be stashed or reliably restored.
+        </p>
+      </section>
     </main>
   );
 }

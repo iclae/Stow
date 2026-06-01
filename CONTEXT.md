@@ -24,7 +24,7 @@ Releasing a tab's memory via `chrome.tabs.discard()` while leaving it in the tab
 _Avoid_: Discard (use only when referring to the underlying API)
 
 **Stash (暂存)**:
-Closing a real Tab and persisting its metadata (URL, title, etc.) into the extension's `chrome.storage`. The tab leaves the tab strip entirely and exists only as a stored entry until restored.
+Closing a real Tab and persisting its metadata (URL, title, etc.) into the extension's `chrome.storage`. The tab leaves the tab strip entirely and exists only as a stored entry until restored. Browser built-in pages (chrome://, about:), the Chrome Web Store, and non-web URLs (anything other than http/https/ftp) cannot be stashed — they are silently skipped.
 _Avoid_: Save, archive, park
 
 **Close (关闭)**:
