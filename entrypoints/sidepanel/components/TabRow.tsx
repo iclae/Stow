@@ -3,7 +3,7 @@ import { stashTabs } from '@/src/services/stash-actions';
 import { closeTabWithUndo } from '../undo/actions';
 import { toggleLock } from '@/src/lock/keep-awake';
 import { useListItemDnd } from '../dnd/useListItemDnd';
-import { Moon, Tray, Lock, LockOpen, X } from '@phosphor-icons/react';
+import { Moon, Inbox, Lock, LockOpen, X } from 'lucide-react';
 import { Favicon } from './Favicon';
 import styles from './TabRow.module.css';
 
@@ -47,22 +47,25 @@ export function TabRow({ tab, locked }: { tab: TabView; locked: boolean }) {
           className={styles.action}
           data-on={locked || undefined}
           title={locked ? 'Allow sleeping (unlock)' : 'Keep awake (never sleep)'}
+          aria-label={locked ? 'Allow sleeping' : 'Keep awake'}
           aria-pressed={locked}
           onClick={() => toggleLock(tab.id)}
         >
-          {locked ? <Lock size={15} weight="fill" /> : <LockOpen size={15} weight="regular" />}
+          {locked ? <Lock size={15} /> : <LockOpen size={15} />}
         </button>
         <button
           className={styles.action}
           title={canSleep ? 'Sleep this tab' : 'Cannot sleep this tab'}
+          aria-label="Sleep tab"
           disabled={!canSleep}
           onClick={() => sleepTab(tab.id)}
         >
-          <Moon size={15} weight="regular" />
+          <Moon size={15} />
         </button>
         <button
           className={styles.action}
           title="Stash this tab"
+          aria-label="Stash tab"
           onClick={() =>
             stashTabs([
               {
@@ -74,15 +77,16 @@ export function TabRow({ tab, locked }: { tab: TabView; locked: boolean }) {
             ])
           }
         >
-          <Tray size={15} weight="regular" />
+          <Inbox size={15} />
         </button>
         <button
           className={styles.action}
           data-danger
           title="Close this tab"
+          aria-label="Close tab"
           onClick={() => closeTabWithUndo(tab)}
         >
-          <X size={15} weight="bold" />
+          <X size={15} />
         </button>
       </div>
     </li>

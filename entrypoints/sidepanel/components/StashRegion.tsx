@@ -1,7 +1,7 @@
 import type { StashEntry } from '@/src/domain/stash';
 import { StashEntryRow } from './StashEntryRow';
 import { useRegionDropTarget } from '../dnd/useRegionDropTarget';
-import { CaretDown, CaretRight } from '@phosphor-icons/react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './StashRegion.module.css';
 
 export function StashRegion({
@@ -27,16 +27,19 @@ export function StashRegion({
           className={styles.toggle}
           onClick={onToggleCollapse}
           aria-expanded={!collapsed}
+          aria-label={collapsed ? 'Expand stash' : 'Collapse stash'}
           title={collapsed ? 'Expand stash' : 'Collapse stash'}
         >
-          {collapsed ? <CaretRight size={11} weight="bold" /> : <CaretDown size={11} weight="bold" />}
+          {collapsed ? <ChevronRight size={11} /> : <ChevronDown size={11} />}
         </button>
         <h2 className={styles.heading}>Stash</h2>
         <span className={styles.count}>{entries.length}</span>
       </header>
       {!collapsed &&
         (entries.length === 0 ? (
-          <p className={styles.empty}>Nothing stashed yet.</p>
+          <p className={styles.empty}>
+            Nothing stashed yet. Stash a tab to keep it here for later.
+          </p>
         ) : (
           <ul className={styles.list}>
             {entries.map((entry, index) => (

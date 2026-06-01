@@ -2,7 +2,7 @@ import type { StashEntry } from '@/src/domain/stash';
 import { copyRestore, popRestore } from '@/src/services/stash-actions';
 import { deleteStashEntryWithUndo } from '../undo/actions';
 import { useListItemDnd } from '../dnd/useListItemDnd';
-import { ArrowSquareOut, Trash } from '@phosphor-icons/react';
+import { ExternalLink, Trash2 } from 'lucide-react';
 import { Favicon } from './Favicon';
 import styles from './StashEntryRow.module.css';
 
@@ -29,7 +29,7 @@ export function StashEntryRow({
       <Favicon src={entry.favIconUrl} />
       <button
         className={styles.title}
-        title={`Pop restore — ${entry.url}`}
+        title={`Reopen, remove from stash\n${entry.url}`}
         onClick={() => popRestore(entry)}
       >
         {entry.title}
@@ -37,18 +37,20 @@ export function StashEntryRow({
       <div className={styles.actions}>
         <button
           className={styles.action}
-          title="Copy restore (reopen, keep in stash)"
+          title="Reopen, keep in stash"
+          aria-label="Reopen, keep in stash"
           onClick={() => copyRestore(entry)}
         >
-          <ArrowSquareOut size={15} weight="regular" />
+          <ExternalLink size={15} />
         </button>
         <button
           className={styles.action}
           data-danger
           title="Delete from stash"
+          aria-label="Delete from stash"
           onClick={() => deleteStashEntryWithUndo(entry)}
         >
-          <Trash size={15} weight="regular" />
+          <Trash2 size={15} />
         </button>
       </div>
     </li>

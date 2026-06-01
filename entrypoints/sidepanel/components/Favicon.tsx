@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Globe } from '@phosphor-icons/react';
+import { Globe } from 'lucide-react';
 import styles from './Favicon.module.css';
 
 // An empty <img> with no favicon renders as a bare bordered box that reads
@@ -11,7 +11,7 @@ export function Favicon({ src }: { src?: string }) {
   if (!src || failed) {
     return (
       <span className={styles.fallback} aria-hidden>
-        <Globe size={14} weight="regular" />
+        <Globe size={14} />
       </span>
     );
   }

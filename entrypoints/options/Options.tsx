@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getSettings, setSettings } from '@/src/storage/storage';
-import { Plus } from '@phosphor-icons/react';
+import { Plus } from 'lucide-react';
 import styles from './Options.module.css';
 
 /**
@@ -104,7 +104,7 @@ export function Options() {
                 className={styles.button}
                 onClick={() => addDomain(domain)}
               >
-                <Plus size={12} weight="bold" />
+                <Plus size={12} />
                 {domain}
               </button>
             ))}
@@ -120,7 +120,7 @@ export function Options() {
         <h2 className={styles.heading}>Stash</h2>
         <p className={styles.hint}>
           Browser built-in pages (new tab, extensions, chrome:// URLs), the
-          Chrome Web Store, and non-web addresses are always skipped — they
+          Chrome Web Store, and non-web addresses are always skipped. They
           can&apos;t be stashed or reliably restored.
         </p>
       </section>

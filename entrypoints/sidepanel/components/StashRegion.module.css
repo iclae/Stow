@@ -31,14 +31,14 @@
 
 .heading {
   margin: 0;
-  font-size: 11px;
+  font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-dim);
 }
 
 .count {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--text-dim);
 }
 
@@ -54,5 +54,5 @@
   margin: 0;
   padding: 8px 10px 14px;
   color: var(--text-dim);
-  font-size: 12px;
+  font-size: 0.75rem;
 }

@@ -11,8 +11,8 @@
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  font-size: 13px;
+  box-shadow: var(--shadow-toast);
+  font-size: 0.8125rem;
 }
 
 .message {

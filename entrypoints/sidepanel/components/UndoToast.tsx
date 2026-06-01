@@ -1,4 +1,4 @@
-import { ArrowUUpLeft } from '@phosphor-icons/react';
+import { Undo2 } from 'lucide-react';
 import { runUndo, useUndoToast } from '../undo/undoStore';
 import styles from './UndoToast.module.css';
 
@@ -12,7 +12,7 @@ export function UndoToast() {
         {toast.message}
       </span>
       <button className={styles.undo} onClick={runUndo}>
-        <ArrowUUpLeft size={13} weight="regular" />
+        <Undo2 size={13} />
         Undo
       </button>
     </div>
